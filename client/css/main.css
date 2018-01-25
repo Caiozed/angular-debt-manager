@@ -1,0 +1,50 @@
+a{
+    color: white;    
+}
+
+ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+a:hover{
+    cursor: pointer;
+    color: white;  
+    text-decoration: underline !important;
+}
+
+.btn{
+    color: white !important;   
+}
+
+#relative-form *{
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+}
+
+.navbar-custom{
+    background: #2b2b2b;
+    padding: .5 0;
+    color: white;
+}
+
+#month-list li{
+    text-align: center;
+    display: inline-block;
+    width: 25%;
+    height: 50px;
+    padding: 1em 0;
+}
+
+#month-form h1 {
+    width: 100%;
+}
+
+#month-form *{
+    margin: 0 auto;
+    width: 20%;
+    text-align: center;
+    display: block;
+}

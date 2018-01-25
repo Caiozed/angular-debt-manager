@@ -1,0 +1,27 @@
+<div ng-controller="menu-ctrl">
+    <div ng-show="messages" class="alert" ng-class="alert">{{messages}}</div>
+    <!-- Form to create new management month -->
+    <form id="month-form" class="jumbotron">
+        <h1>Crie um novo mês de controle</h1>
+        <label>Ano:</label>
+        <select ng-model="year">
+            <option ng-repeat="year in years" ng-value="{{year}}">{{year}}</option>
+        </select>
+        <label>Mês:</label>
+         <select ng-model="month">
+            <option ng-repeat="month in months" ng-value="{{month}}">{{month}}</option>
+        </select>
+        <button  class="btn btn-warning" ng-show="editable" ng-click="editMonth(month_id, month, year)">Atualizar</button>
+        <button  class="btn btn-primary" ng-hide="editable" ng-click="addMonth(month, year)">Adicionar</button>
+    </form>
+    <!-- List of months managed by user -->
+    <ul id="month-list">
+        <li ng-repeat="month_debt in month_debts">
+            <h1>{{formatDate(month_debt.month_date)}}</h1>
+            <!-- Option for month model-->
+            <a ng-href="#!month/{{month_debt.id}}" class="btn btn-primary">Gerenciar</a>
+            <a ng-click="deleteMonth(month_debt.id)" class="btn btn-danger">Deletar</a>
+            <a ng-click="setEditMonth(month_debt)" class="btn btn-warning">Editar</a>
+        </li>
+    </ul>
+</div>

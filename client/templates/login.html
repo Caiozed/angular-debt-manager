@@ -1,0 +1,12 @@
+<div id="relative-form" ng-controller="login-ctrl">
+    <div ng-show="messages" class="alert" ng-class="alert">{{messages}}</div>
+    <!-- Login form -->
+    <form class="jumbotron">
+        <label>Nome de usuário:</label>
+        <input type="text" name="username" ng-model="username" required/>
+        <label>Senha:</label>
+        <input type="password" name="password" ng-model="password" required/>
+        <button class="btn btn-primary" ng-click="login(username, password)">Entrar</button>
+        <a href="#!">Me cadastrar.</a>
+    </form>
+</div>

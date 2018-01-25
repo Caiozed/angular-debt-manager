@@ -1,0 +1,56 @@
+<div ng-controller="month-ctrl">
+    <div ng-show="messages" class="alert" ng-class="alert">{{messages}}</div>
+    <table class="table table-striped">
+        <!-- Table header -->
+      <thead class="thead-light">
+        <th scope="col">Descrição</th>
+        <th scope="col">Data de vencimento</th>
+        <th scope="col">Valor a pagar</th>
+        <th scope="col">Pago</th>
+        <th scope="col"></th>
+      </thead>
+      <tbody>
+          <!-- Table body showing all debts on the selected month-->
+          <tr ng-repeat="debt in debts | orderBy : order">
+              <td scope="row">{{debt.description}}</td>
+              <td scope="row">{{debt.due_date.split("T")[0]}}</td>
+              <td scope="row">{{debt.price | currency : "R$"}}</td>
+              <td scope="row"><input type="checkbox" name="paid" ng-checked="{{debt.paid}}" required/></td>
+              <td scope="row">
+                  <button ng-click="setEditDebt(debt)" class="btn btn-warning">Editar</button>
+                  <button ng-click="deleteDebt(debt.id)"class="btn btn-danger">Deletar</button>
+              </td>
+          </tr>
+          <tr>
+              <!-- Order dropdown menu -->
+              <td colspan="4" scope="row">Total: {{total | currency : "R$"}}</td>
+              <td>
+                Ordenar por: 
+                <select ng-model="order">
+                    <option value="description">Descrição</option>    
+                    <option value="price">Preço</option>   
+                    <option value="due_date">Data</option>   
+                    <option value="paid">Pago</option>  
+                </select>
+            </td>
+          </tr>
+      </tbody>
+    <tfoot>
+        <!-- Update button -->
+        <tr ng-show="editable">
+            <td  colspan="5"><button ng-click="editDebt(debt_id, description, due_date, price, paid)" class="btn btn-block btn-warning">Atualizar</button></td> 
+        </tr>
+        <!-- Form to update debt list-->
+        <tr>
+            <td><input type="text" name="description" ng-model="description" required/></td>
+            <td><input type="date" name="due_date" ng-model="due_date" required/></td>
+            <td><input type="number" name="price" ng-model="price" required/></td>
+            <td><input type="checkbox" name="paid" ng-model="paid" required/></td>
+        </tr>
+        <!-- Add new debt button-->
+        <tr ng-hide="editable">
+            <td colspan="5"><button ng-click="addDebt(description, due_date, price, paid)" class="btn btn-block btn-primary">Adicionar</button></td>
+        </tr>
+    </tfoot>
+    </table>
+</div>
