@@ -1,5 +1,21 @@
+body{
+    background: url("../img/background-869586_960_720.png") no-repeat center center fixed;
+     background-size: cover;
+}
+
 a{
     color: white;    
+}
+
+h1{
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #565656;
+}
+
+.table{
+    background-color: white;    
+    border-radius: 0 0 5px 5px;
 }
 
 ul{
@@ -18,10 +34,50 @@ a:hover{
     color: white !important;   
 }
 
+.form-custom-center{
+    position: relative;
+    top: 15em;
+    border-radius: 5px;
+    background-color: white;
+    padding: 3em 0;
+    -webkit-box-shadow: 0px 0px 122px -29px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 122px -29px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 122px -29px rgba(0,0,0,0.75);
+}
+
+.form-custom-center > p{
+    font-size: 12px;
+    color: #777777;
+} 
+
+.form-custom{
+    border-radius: 0 0 5px 5px;
+    background-color: white;
+    padding: 3em 0;
+    -webkit-box-shadow: 0px 0px 122px -29px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 122px -29px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 122px -29px rgba(0,0,0,0.75);
+} 
+
+.form-custom > p{
+    font-size: 12px;
+    color: #777777;
+} 
+
 #relative-form *{
     display: block;
     margin: 0 auto;
+    margin-bottom: 5px;
     width: 50%;
+}
+
+#relative-form label{
+    color: #777777;
+}
+
+#relative-form a{
+    display: inline;
+    color: blue;
 }
 
 .navbar-custom{
@@ -30,15 +86,12 @@ a:hover{
     color: white;
 }
 
-#month-list li{
-    text-align: center;
-    display: inline-block;
-    width: 25%;
-    height: 50px;
-    padding: 1em 0;
+.month-container{
+    background-color: white;   
 }
 
 #month-form h1 {
+    color: #777;
     width: 100%;
 }
 
@@ -49,12 +102,53 @@ a:hover{
     display: block;
 }
 
+#month-form label{
+    color: #777777;
+    margin-bottom: 5px;
+}
+
 .month{
-    -webkit-box-shadow: 0px 0px 123px -23px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 123px -23px rgba(0,0,0,0.75);
-    box-shadow: 0px 0px 123px -23px rgba(0,0,0,0.75);
+    display: inline-block;
+    text-align: center;
+    width: 50%;
+    border-bottom: 1px solid #777;
+    padding: 1em 0;
+    transition: all .2s;
 }
 
 .dark-text{
     color: black !important;    
+}
+
+.user-sidebar{
+    position: fixed;
+    left: 50px;
+}
+
+.user-sidebar ul {
+    color: white;
+    padding: 2em;
+    background: black;
+    position: fixed;
+    transition: .5s;
+}
+
+.user-sidebar-toggler{
+    position: relative;
+    right: -190px;
+    color: #d8d8d8;
+    width: 50px;
+    font-size: 30px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.user-sidebar-toggler:hover{
+    color: white;
+}
+
+.no-shadows{
+    box-shadow: none;
 }

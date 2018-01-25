@@ -1,13 +1,14 @@
 <div id="relative-form" ng-controller="login-ctrl">
     <div ng-show="messages" class="alert" ng-class="alert">{{messages}}</div>
     <!-- Login form -->
-    <form class="jumbotron">
-        <h1>Log in</h1>
+    <form class="form-custom-center" name="loginForm">
+        <h1>Entrar</h1>
         <label>Nome de usuário:</label>
         <input type="text" name="username" ng-model="username" required/>
         <label>Senha:</label>
         <input type="password" name="password" ng-model="password" required/>
-        <button class="btn btn-primary" ng-click="login(username, password)">Entrar</button>
-        <a class="dark-text" href="#!">Me cadastrar.</a>
+        <button class="btn btn-primary" ng-show="loginForm.username.$valid && loginForm.password.$valid" 
+        ng-click="login(username, password)">Entrar</button>
+        <p>Não sou cadastrado ? <a href="#!signup">me cadastrar</a></p>
     </form>
 </div>

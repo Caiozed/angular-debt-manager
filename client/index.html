@@ -10,20 +10,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Styling tags -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/main.css" type="text/css" />
   </head>
   <body>
     
     <!-- Navbar that is enabled when a user is logged -->
-    <nav class="container">
-      <ul class="nav navbar navbar-custom" ng-show="isLoggedin()">
+    <nav  class="user-sidebar" ng-show="isLoggedin()">
+      <ul ng-style="sidebarOpacity">
         <li class="navbar-brand">
           Olá, {{currentUser().username}}
         </li>
         <li> <a href="#!menu">Menu</a></li>
-        <li> <a href="#!edit/user">Editar</a></li>
+        <li> <a href="#!edit/user">Editar dados</a></li>
         <li> <a ng-click="logOut()">Sair</a></li>
+        <li><a class="btn btn-danger" ng-click="deleteUser()">Deletar minha conta</a></li>
       </ul>
+        <i class="fa fa-cog user-sidebar-toggler" ng-style="cog" ng-click="toggleSideBar()"aria-hidden="true"></i>
     </nav>
     
     <!-- Angular router main container-->

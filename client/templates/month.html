@@ -4,7 +4,7 @@
         <!-- Table header -->
       <thead class="thead-light">
         <th scope="col">Descrição</th>
-        <th scope="col">Data de vencimento</th>
+        <th scope="col">Dia de vencimento</th>
         <th scope="col">Valor a pagar</th>
         <th scope="col">Pago</th>
         <th scope="col"></th>
@@ -13,9 +13,9 @@
           <!-- Table body showing all debts on the selected month-->
           <tr ng-repeat="debt in debts | orderBy : order">
               <td scope="row">{{debt.description}}</td>
-              <td scope="row">{{debt.due_date.split("T")[0]}}</td>
+              <td scope="row">{{debt.due_date}}</td>
               <td scope="row">{{debt.price | currency : "R$"}}</td>
-              <td scope="row"><input type="checkbox" name="paid" ng-checked="{{debt.paid}}" required/></td>
+              <td scope="row"><i ng-show="debt.paid" class="fa fa-check-circle" aria-hidden="true"></i></td>
               <td scope="row">
                   <button ng-click="setEditDebt(debt)" class="btn btn-warning">Editar</button>
                   <button ng-click="deleteDebt(debt.id)"class="btn btn-danger">Deletar</button>
@@ -40,11 +40,15 @@
         <tr ng-show="editable">
             <td  colspan="5"><button ng-click="editDebt(debt_id, description, due_date, price, paid)" class="btn btn-block btn-warning">Atualizar</button></td> 
         </tr>
-        <!-- Form to update debt list-->
+        <!-- Form to update and add debt to list-->
         <tr>
             <td><input type="text" name="description" ng-model="description" required/></td>
-            <td><input type="date" name="due_date" ng-model="due_date" required/></td>
-            <td><input type="number" name="price" ng-model="price" required/></td>
+            <td>
+                <select name="due_date" ng-model="due_date" >
+                    <option ng-repeat="day in days" ng-value="{{day}}">{{day}}</option>    
+                </select>
+            </td>
+            <td>R$<input type="number" name="price" ng-model="price" required/></td>
             <td><input type="checkbox" name="paid" ng-model="paid" required/></td>
         </tr>
         <!-- Add new debt button-->

@@ -5,11 +5,11 @@ var app = angular.module("debt-manager", ["ngRoute"]);
 app.config(function($routeProvider){
     $routeProvider
         .when("/", {
-            templateUrl: "../templates/signup.html"
+            templateUrl: "../templates/login.html"
         })
         
-        .when("/login", {
-            templateUrl: "../templates/login.html"
+        .when("/signup", {
+            templateUrl: "../templates/signup.html"
         })
         
         .when("/edit/user", {
@@ -42,7 +42,9 @@ app.config(function($routeProvider){
 
 
 // Angular global functions for templates
-app.run(function($rootScope){
+app.run(function($rootScope, $http){
+    $rootScope.sidebar = false;
+    $rootScope.sidebarOpacity = {"opacity": "0", "display": "none"};
     // Format date to MM/YYYY
     $rootScope.formatDate = function(month){
         var splitMonth = month.split("-");
@@ -61,6 +63,28 @@ app.run(function($rootScope){
     $rootScope.currentUser = function(){
         return currentUser();
     };
+    
+    $rootScope.toggleSideBar = function(){
+        $rootScope.sidebar = !$rootScope.sidebar;
+        if($rootScope.sidebar){
+            $rootScope.sidebarOpacity = {"opacity": "1"};
+        }else{
+            $rootScope.sidebarOpacity = {"opacity": "0"};
+        }
+    };
+    
+    // Delete user on database
+    $rootScope.deleteUser = function(id){
+        // Asks user if he is positive on deleting the data
+        if(confirmationPopup("Tem certeza ? (Os dados nào podem ser recuperados)")){
+            request($http, "/delete/users/"+currentUser().id, "POST", {},
+                function(response){
+                    $rootScope.logOut();
+                    redirectTo("#!");
+                }
+           );
+        }
+    };
 });
 
 // Signup page controller
@@ -68,8 +92,11 @@ app.controller("signup-ctrl", function($scope, $rootScope, $http){
     
     // Validates user input
     $scope.submitUser = function(username, password, password_confirmation){
-        if(username != undefined && password == password_confirmation){
-            $scope.addUser(username, password);
+         if(username != undefined && 
+            password != undefined &&
+            password_confirmation != undefined &&
+            password == password_confirmation){
+                $scope.addUser(username, password);
         }else{
             $scope.alert = "alert-danger"; 
             $scope.messages = "Senhas não são iguais!";
@@ -82,7 +109,7 @@ app.controller("signup-ctrl", function($scope, $rootScope, $http){
             function(response){
                 $scope.alert = "alert-success"; 
                 $scope.messages = response.data[0];
-                redirectTo("#!login");
+                redirectTo("#!");
             },
             
             function(response){
@@ -101,7 +128,10 @@ app.controller("edit-user-ctrl", function($scope, $rootScope, $http){
     
     // Validates user input
     $scope.submitUser = function(username, password, password_confirmation){
-        if(username != undefined && password == password_confirmation){
+        if(username != undefined && 
+        password != undefined &&
+        password_confirmation != undefined &&
+        password == password_confirmation){
             $scope.editUser(username, password);
         }else{
             $scope.alert = "alert-danger"; 
@@ -116,12 +146,13 @@ app.controller("edit-user-ctrl", function($scope, $rootScope, $http){
                 $scope.alert = "alert-success"; 
                 $scope.messages = response.data; //Send feedback to user
                 $rootScope.logOut();
-                redirectTo("#!login");
+                redirectTo("#!");
             },
             
             function(response){
                 $scope.alert = "alert-danger"; 
                 $scope.messages = response.data[0];
+                
             }
        );
     };
@@ -174,9 +205,9 @@ app.controller("login-ctrl", function($scope, $rootScope, $http){
 });
 
 // Menu controller
-app.controller("menu-ctrl", function($scope, $rootScope, $http){
+app.controller("menu-ctrl", function($scope, $rootScope, $http, $window){
     // Formats data to be used
-    createYearMonth($scope);
+    createDates($scope);
     
     // Adds new month to database
     $scope.addMonth = function(month, year){
@@ -215,6 +246,7 @@ app.controller("menu-ctrl", function($scope, $rootScope, $http){
     
     //  Update months on database
     $scope.editMonth = function(id, month, year){
+
         var date = new Date(year+"-"+month+"-"+"01");
         request($http, "/edit/months/"+id, "POST", {date: date},
             function(response){
@@ -251,9 +283,11 @@ app.controller("menu-ctrl", function($scope, $rootScope, $http){
     
     // Set variable to be used by template
     $scope.setEditMonth = function(month_debts){
+        $window.scrollTo(0, 0);
         $scope.month_debts_fomated = $rootScope.formatDate(month_debts.month_date);
         $scope.month = $scope.month_debts_fomated.split("-")[0];
         $scope.year = $scope.month_debts_fomated.split("-")[1];
+        console.log($scope.year);
         $scope.month_id = month_debts.id;
         $scope.editable = true;
     };
@@ -268,7 +302,7 @@ app.controller("menu-ctrl", function($scope, $rootScope, $http){
 
 // Month controller
 app.controller("month-ctrl", function($scope, $rootScope, $http, $routeParams){
-    createYearMonth($scope);
+    createDates($scope);
     
     // Adds new debt to database 
     $scope.addDebt = function(description, due_date, price, paid){
@@ -277,20 +311,26 @@ app.controller("month-ctrl", function($scope, $rootScope, $http, $routeParams){
         if(paid == undefined){
             paid = false;
         }
-        request($http, "/new/debts", "POST", 
-            {description: description, due_date: due_date, price: price, paid: paid, month_id: month_id},
-            function(response){
-                $scope.alert = "alert-success"; 
-                $scope.messages = response.data;
-                $scope.getDebts();
-                $scope.clearInputs();
-            },
-            
-            function(response){
-                $scope.alert = "alert-danger"; 
-                $scope.messages = response.data;
-            }
-        );
+        
+        // Only accepts not null values
+        if(description == undefined  || due_date == undefined || price == undefined){
+            $scope.messages = "Pro favor preencha todos os campos!";
+        }else{
+            request($http, "/new/debts", "POST", 
+                {description: description, due_date: due_date, price: price, paid: paid, month_id: month_id},
+                function(response){
+                    $scope.alert = "alert-success"; 
+                    $scope.messages = response.data;
+                    $scope.getDebts();
+                    $scope.clearInputs();
+                },
+                
+                function(response){
+                    $scope.alert = "alert-danger"; 
+                    $scope.messages = response.data;
+                }
+            );
+        }
     };
     
     $scope.getDebts = function(){
@@ -359,7 +399,7 @@ app.controller("month-ctrl", function($scope, $rootScope, $http, $routeParams){
     $scope.setEditDebt = function(debt){
         $scope.debt_id = debt.id;
         $scope.description = debt.description;
-        $scope.due_date = new Date(debt.due_date);
+        $scope.due_date = debt.due_date;
         $scope.price = debt.price;
         $scope.paid = debt.paid == 1 ? true : false;
         $scope.editable = true;
@@ -420,9 +460,15 @@ function isLoggedin(){
 
 
 // Create data to be used on select tag of a template
-function createYearMonth($scope){
+function createDates($scope){
     $scope.years = [];
     $scope.months = [];
+    $scope.days = [];
+    
+    for (var i = 1; i <= 31; i++) {
+        $scope.days.push(i);
+    }
+    
     for (var i = 1; i <= 12; i++) {
         $scope.months.push(i);
     }

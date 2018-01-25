@@ -1,14 +1,15 @@
 <div id="relative-form" ng-controller="edit-user-ctrl">
     <div ng-show="messages" class="alert" ng-class="alert">{{messages}}</div>
     <!-- Form to edit user -->
-    <form class="jumbotron">
+    <form class="form-custom-center" name="edit-form">
+        <h1>Editar</h1>
+        <p>Edite suas informações de cadastro!</p>
         <label>Nome de usuário:</label>
         <input type="text" name="username" ng-model="username" required/>
         <label>Nova Senha:</label>
         <input type="password" name="password" ng-model="password" required/>
          <label>Repita a senha:</label>
         <input type="password" name="password_confirmation" ng-model="password_confirmation" required/>
-        <button class="btn btn-warning"ng-click="submitUser(username, password, password_confirmation)">Atualizar</button>
+        <button class="btn btn-warning" ng-click="submitUser(username, password, password_confirmation)">Atualizar</button>
     </form>
-    <a class="btn btn-block btn-danger" ng-click="deleteUser()">Deletar minha conta</a>
 </div>
