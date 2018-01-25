@@ -16,7 +16,7 @@
     </form>
     <!-- List of months managed by user -->
     <ul id="month-list">
-        <li ng-repeat="month_debt in month_debts">
+        <li class="month" ng-repeat="month_debt in month_debts">
             <h1>{{formatDate(month_debt.month_date)}}</h1>
             <!-- Option for month model-->
             <a ng-href="#!month/{{month_debt.id}}" class="btn btn-primary">Gerenciar</a>

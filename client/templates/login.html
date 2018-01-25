@@ -2,11 +2,12 @@
     <div ng-show="messages" class="alert" ng-class="alert">{{messages}}</div>
     <!-- Login form -->
     <form class="jumbotron">
+        <h1>Log in</h1>
         <label>Nome de usuário:</label>
         <input type="text" name="username" ng-model="username" required/>
         <label>Senha:</label>
         <input type="password" name="password" ng-model="password" required/>
         <button class="btn btn-primary" ng-click="login(username, password)">Entrar</button>
-        <a href="#!">Me cadastrar.</a>
+        <a class="dark-text" href="#!">Me cadastrar.</a>
     </form>
 </div>

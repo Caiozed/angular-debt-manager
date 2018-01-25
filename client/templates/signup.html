@@ -1,6 +1,7 @@
 <div id="relative-form" ng-controller="signup-ctrl">
     <div ng-show="messages" class="alert" ng-class="alert">{{messages}}</div>
     <form class="jumbotron">
+        <h1>Sign up</h1>
         <label>Nome de usuário:</label>
         <input type="text" name="username" ng-model="username" required/>
         <label>Senha:</label>
@@ -8,6 +9,6 @@
         <label>Repita a senha:</label>
         <input type="password" name="password_confirmation" ng-model="password_confirmation" required/>
         <button class="btn btn-primary" ng-click="submitUser(username, password, password_confirmation)">Enviar</button>
-        <a href="#!login">Já sou cadastrado.</a>
+        <a class="dark-text" href="#!login">Já sou cadastrado.</a>
     </form>
 </div>
